@@ -1,0 +1,16 @@
+.input-text{
+    background-color: transparent;
+    z-index: 100;
+    border: none;
+    border-bottom: 1px solid black;
+    height: 30px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.input-button{
+    background-color: aquamarine;
+    border: none;
+    height: 30px;
+    width: 50px;
+}
