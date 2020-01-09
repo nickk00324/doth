@@ -18,6 +18,7 @@ class Page extends React.Component {
         this.editLine = this.editLine.bind(this);
         this.doneEditing = this.doneEditing.bind(this);
         this.handleInput = this.handleInput.bind(this);
+        this.editText = this.editText.bind(this);
     }
 
     editLine(e){
@@ -33,6 +34,17 @@ class Page extends React.Component {
         }   
     }
 
+    editText(e){
+        e.stopPropagation();
+
+        console.log(e.target.getAttribute('textid'));
+        const selectedText = this.state.lines.find(
+          text => text.key === e.target.getAttribute("textid")
+        );
+        this.setState({editValue: selectedText.props.children});
+        this.setState({isEditing: true});
+    }
+
     doneEditing(){
         this.setState({isEditing: false})
         this.addLine(this.state.editValue);
@@ -43,7 +55,12 @@ class Page extends React.Component {
         if(text.trim() !== ''){
             this.setState({ lines: [
                 ...this.state.lines, 
-                <Text editLocation={this.state.editLocation}>{text}</Text>
+                <Text 
+                    editText={this.editText} 
+                    editLocation={this.state.editLocation}
+                    key={new Date().toISOString()}
+                    textId={new Date().toISOString()}
+                >{text}</Text>
             ] })
         }    
     }
@@ -60,6 +77,7 @@ class Page extends React.Component {
                         <Input
                             doneEditing={this.doneEditing}
                             handleInput={this.handleInput}
+                            editValue={this.state.editValue}
                             editLocation={this.state.editLocation}
                         />
                         : ''

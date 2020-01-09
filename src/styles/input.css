@@ -1,16 +1,29 @@
 .input-text{
     background-color: transparent;
     z-index: 100;
-    border: none;
-    border-bottom: 1px solid black;
-    height: 30px;
+    border: 1px solid salmon;
     box-sizing: border-box;
-    font-size: 14px;
+    font-size: 16px;
+    height: 24px;
+    resize: none;
+    flex-basis: 100%;
 }
 
 .input-button{
-    background-color: aquamarine;
     border: none;
     height: 30px;
-    width: 50px;
+    flex-basis: 50%;
+}
+
+.add-button{
+    background-color: aquamarine;
+}
+
+.exit-button{
+    background-color: rgb(255, 208, 119);
+}
+
+.input{
+    display: flex;
+    flex-wrap: wrap;
 }

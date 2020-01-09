@@ -4,11 +4,14 @@ import Draggable from 'react-draggable';
 import '../styles/text.css';
 
 class Text extends React.Component{
+
     render(){
         return(
                 <Draggable bounds="parent">
                     <div
+                        textid={this.props.textId}
                         className="text"
+                        onDoubleClick={this.props.editText}
                         style={{
                             position: 'absolute',
                             top: this.props.editLocation ? `${this.props.editLocation.y}px` : '0px',

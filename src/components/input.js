@@ -9,8 +9,9 @@ const Input = props => {
             top: `${props.editLocation.y}px`,
             left: `${props.editLocation.x}px`
         }}>
-            <input type="text" className="input-text" onChange={props.handleInput}></input>
-            <button className="input-button" onClick={props.doneEditing}>add</button>
+            <textarea value={props.editValue} className="input-text" onChange={props.handleInput}></textarea>
+            <button className="input-button add-button" onClick={props.doneEditing}>add</button>
+            <button className="input-button exit-button" onClick={props.doneEditing}>exit</button>
         </div>     
     )
 }
