@@ -3,13 +3,20 @@ import Text from './text';
 import Input from './input';
 import '../styles/page.css';
 
+import {
+    ADD_LINE,
+    EXIT,
+    REMOVE_LINE
+} from '../util/editingTypes';
+
 class Page extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            lines: [],
+            lines: {},
             isEditing: false,
             editValue: '',
+            pendingLine: '',
             editLocation: {
                 x: '',
                 y: ''
@@ -30,39 +37,66 @@ class Page extends React.Component {
                     y: e.clientY - ((window.innerHeight - 700) / 2)
                 }
              })
-            console.log(this.state.editLocation);
         }   
     }
 
     editText(e){
         e.stopPropagation();
 
-        console.log(e.target.getAttribute('textid'));
-        const selectedText = this.state.lines.find(
-          text => text.key === e.target.getAttribute("textid")
-        );
+        const selectedText = this.state.lines[e.target.getAttribute("textid")];
+        console.log(selectedText);
+        this.setState({pendingLine: selectedText});
+        this.setState({lines: {...this.state.lines, [e.target.getAttribute('textid')]: ''}})
         this.setState({editValue: selectedText.props.children});
-        this.setState({isEditing: true});
+        this.editLine(e);
     }
 
-    doneEditing(){
+    doneEditing(type){
+        switch(type){
+            case ADD_LINE:
+                this.addLine(this.state.editValue); 
+                break;
+            case EXIT:
+                if(this.state.pendingLine){
+                    this.setState({
+                        lines: {
+                            ...this.state.lines,
+                            [this.state.pendingLine.key]: this.state.pendingLine
+                        }
+                    });
+                }
+                this.setState({pendingLine: ''});
+                break;
+            case REMOVE_LINE:
+                this.setState({
+                   lines: {
+                       ...this.state.lines,
+                        [this.state.pendingLine.key]: ''
+                   } 
+                })
+                this.setState({ pendingLine: '' });
+                break;
+            default:
+        }
+
         this.setState({isEditing: false})
-        this.addLine(this.state.editValue);
         this.setState({editValue: ''})
     }
 
     addLine(text){
         if(text.trim() !== ''){
-            this.setState({ lines: [
+            let newKey = new Date().toISOString();
+            this.setState({ lines: {
                 ...this.state.lines, 
-                <Text 
+                [newKey]: <Text 
                     editText={this.editText} 
                     editLocation={this.state.editLocation}
-                    key={new Date().toISOString()}
-                    textId={new Date().toISOString()}
+                    key={newKey}
+                    textId={newKey}
                 >{text}</Text>
-            ] })
-        }    
+            }})
+        } 
+        console.log(this.state.lines)   
     }
 
     handleInput(e){
@@ -72,7 +106,7 @@ class Page extends React.Component {
     render(){
         return(         
                 <div className="page" onDoubleClick={this.editLine} style={{marginTop: (window.innerHeight - 700) / 2 }}>
-                    {this.state.lines}
+                    {Object.values(this.state.lines)}
                     {this.state.isEditing ?
                         <Input
                             doneEditing={this.doneEditing}
