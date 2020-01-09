@@ -9,12 +9,13 @@ Double click to add a new line,
 Single click and drag to move the line on the page.
 click the 'capture' button to create a png image of your poem.
 
-### Upcoming features
+## Upcoming features
 
 - sync with google drive to save pdfs 
 - settings to customize things such as page size and fonts
 - guides to line up text
 - some kind of sync with instagram to make it easier to post there
 - accounts where you can save your poems
+- improved styling(obvs)
 
 
