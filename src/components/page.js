@@ -26,6 +26,7 @@ class Page extends React.Component {
         this.doneEditing = this.doneEditing.bind(this);
         this.handleInput = this.handleInput.bind(this);
         this.editText = this.editText.bind(this);
+        this.addLine = this.addLine.bind(this);
     }
 
     editLine(e){
@@ -44,7 +45,6 @@ class Page extends React.Component {
         e.stopPropagation();
 
         const selectedText = this.state.lines[e.target.getAttribute("textid")];
-        console.log(selectedText);
         this.setState({pendingLine: selectedText});
         this.setState({lines: {...this.state.lines, [e.target.getAttribute('textid')]: ''}})
         this.setState({editValue: selectedText.props.children});

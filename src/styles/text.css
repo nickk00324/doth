@@ -2,4 +2,5 @@
     display: inline-block;
     font-size: 14px;
     z-index: 5;
+    user-select: none;
 }

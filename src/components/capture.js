@@ -17,7 +17,10 @@ class Capture extends React.Component{
     }
     render(){
         return(
-            <button onClick={this.capturePage}>capture</button>
+            <div>
+                <button onClick={this.capturePage}>capture</button>
+            </div>
+            
         )
     }
 }
