@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react';
 import Page from './components/page'
-import Capture from './components/capture';
+import Settings from './components/settings';
 import './App.css';
 
 function App() {
   return (
     <Fragment>
       <Page />
-      <Capture />
+      <Settings />
     </Fragment>
   );
 }
