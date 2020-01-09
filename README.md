@@ -18,4 +18,11 @@ click the 'capture' button to create a png image of your poem.
 - accounts where you can save your poems
 - improved styling(obvs)
 
+## thanks
+
+sincere thanks to:
+
+- [react-draggable](https://github.com/mzabriskie/react-draggable)
+- [html2canvas](https://html2canvas.hertzen.com/)
+
 
