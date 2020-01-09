@@ -4,6 +4,7 @@ import Settings from './components/settings';
 import './App.css';
 
 function App() {
+
   return (
     <Fragment>
       <Page />
