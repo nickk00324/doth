@@ -1,0 +1,7 @@
+.guide{
+    border-left: 2px solid pink;
+    height: 700px;
+    position: absolute;
+    left: 250px;
+    display: block;
+}   

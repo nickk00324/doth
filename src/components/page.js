@@ -1,6 +1,7 @@
 import React from 'react';
 import Text from './text';
 import Input from './input';
+import Guide from './guide';
 import '../styles/page.css';
 
 import {
@@ -44,11 +45,12 @@ class Page extends React.Component {
     editText(e){
         e.stopPropagation();
 
+        this.editLine(e);
         const selectedText = this.state.lines[e.target.getAttribute("textid")];
         this.setState({pendingLine: selectedText});
         this.setState({lines: {...this.state.lines, [e.target.getAttribute('textid')]: ''}})
         this.setState({editValue: selectedText.props.children});
-        this.editLine(e);
+        
     }
 
     doneEditing(type){
@@ -58,10 +60,12 @@ class Page extends React.Component {
                 break;
             case EXIT:
                 if(this.state.pendingLine){
+                    let editedLine = this.state.pendingLine;
+                    console.log(editedLine);
                     this.setState({
                         lines: {
                             ...this.state.lines,
-                            [this.state.pendingLine.key]: this.state.pendingLine
+                            [this.state.pendingLine.key]: editedLine
                         }
                     });
                 }
@@ -81,6 +85,7 @@ class Page extends React.Component {
 
         this.setState({isEditing: false})
         this.setState({editValue: ''})
+        this.setState({pendingLine: ''})
     }
 
     addLine(text){
@@ -95,8 +100,7 @@ class Page extends React.Component {
                     textId={newKey}
                 >{text}</Text>
             }})
-        } 
-        console.log(this.state.lines)   
+        }   
     }
 
     handleInput(e){
@@ -107,6 +111,8 @@ class Page extends React.Component {
         return(         
                 <div className="page" onDoubleClick={this.editLine} style={{marginTop: (window.innerHeight - 700) / 2 }}>
                     {Object.values(this.state.lines)}
+                    {this.props.guides}
+                    <hr></hr>
                     {this.state.isEditing ?
                         <Input
                             doneEditing={this.doneEditing}
