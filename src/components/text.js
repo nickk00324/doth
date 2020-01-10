@@ -7,7 +7,7 @@ class Text extends React.Component{
 
     render(){
         return(
-                <Draggable bounds="parent">
+                <Draggable bounds="parent" onClick={this.updatePos}>
                     <div
                         textid={this.props.textId}
                         className="text"

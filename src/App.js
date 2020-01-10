@@ -7,19 +7,31 @@ import './App.css';
 function App() {
 
   const [guidesArr, setGuidesArr] = useState([
-    <Guide isHidden={true} />,
-    <Guide isHidden={true} />
+    <Guide orientation={'vertical'} isHidden={true} />,
+    <Guide orientation={'vertical'} isHidden={true} />,
+    <Guide orientation={'horizontal'} isHidden={true} />,
+    <Guide orientation={'horizontal'} isHidden={true} />
   ]);
   const [guidesHidden, setGuidesHidden] = useState(true);
 
   const hideGuides = () => {
-    let hiddenGuidesArr = [<Guide isHidden={true} />, <Guide isHidden={true} />];
+    let hiddenGuidesArr = [
+      <Guide orientation={"vertical"} isHidden={true} />,
+      <Guide orientation={"vertical"} isHidden={true} />,
+      <Guide orientation={"horizontal"} isHidden={true} />,
+      <Guide orientation={"horizontal"} isHidden={true} />
+    ];
     setGuidesArr(hiddenGuidesArr);
     setGuidesHidden(true);
   }
 
   const showGuides = () => {
-    const visibleGuides = [<Guide />, <Guide />];
+    const visibleGuides = [
+      <Guide orientation={"vertical"} isHidden={false} />,
+      <Guide orientation={"vertical"} isHidden={false} />,
+      <Guide orientation={"horizontal"} isHidden={false} />,
+      <Guide orientation={"horizontal"} isHidden={false} />
+    ];
     setGuidesArr(visibleGuides);
     setGuidesHidden(false);
   }

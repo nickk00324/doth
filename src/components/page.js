@@ -1,7 +1,6 @@
 import React from 'react';
 import Text from './text';
 import Input from './input';
-import Guide from './guide';
 import '../styles/page.css';
 
 import {
@@ -28,6 +27,7 @@ class Page extends React.Component {
         this.handleInput = this.handleInput.bind(this);
         this.editText = this.editText.bind(this);
         this.addLine = this.addLine.bind(this);
+        this.generateKey = this.generateKey.bind(this);
     }
 
     editLine(e){
@@ -47,10 +47,11 @@ class Page extends React.Component {
 
         this.editLine(e);
         const selectedText = this.state.lines[e.target.getAttribute("textid")];
+        console.log(selectedText);
+        console.log(this.state.editLocation);
         this.setState({pendingLine: selectedText});
         this.setState({lines: {...this.state.lines, [e.target.getAttribute('textid')]: ''}})
-        this.setState({editValue: selectedText.props.children});
-        
+        this.setState({editValue: selectedText.props.children});  
     }
 
     doneEditing(type){
@@ -60,8 +61,7 @@ class Page extends React.Component {
                 break;
             case EXIT:
                 if(this.state.pendingLine){
-                    let editedLine = this.state.pendingLine;
-                    console.log(editedLine);
+                    let editedLine = this.createText(this.state.editValue, this.state.pendingLine.key)
                     this.setState({
                         lines: {
                             ...this.state.lines,
@@ -88,17 +88,28 @@ class Page extends React.Component {
         this.setState({pendingLine: ''})
     }
 
+    createText(text, key){
+        const newKey = key? key : this.generateKey();
+        return (
+          <Text
+            editText={this.editText}
+            editLocation={this.state.editLocation}
+            key={newKey}
+            textId={newKey}
+          >{text}</Text>
+        );
+    }
+
+    generateKey(){
+        return new Date().toISOString();
+    }
+
     addLine(text){
         if(text.trim() !== ''){
-            let newKey = new Date().toISOString();
+            const newKey = this.generateKey();
             this.setState({ lines: {
                 ...this.state.lines, 
-                [newKey]: <Text 
-                    editText={this.editText} 
-                    editLocation={this.state.editLocation}
-                    key={newKey}
-                    textId={newKey}
-                >{text}</Text>
+                [newKey]: this.createText(text, newKey)
             }})
         }   
     }
@@ -112,7 +123,6 @@ class Page extends React.Component {
                 <div className="page" onDoubleClick={this.editLine} style={{marginTop: (window.innerHeight - 700) / 2 }}>
                     {Object.values(this.state.lines)}
                     {this.props.guides}
-                    <hr></hr>
                     {this.state.isEditing ?
                         <Input
                             doneEditing={this.doneEditing}
