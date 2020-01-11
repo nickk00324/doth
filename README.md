@@ -4,7 +4,7 @@ a super simple app that allows you to write poems, and place lines anywhere on t
 
 ## usage
 
-Visit the app [here](https://nickk00324/github.io/doth).
+Visit the app [here](https://nickk00324.github.io/doth).
 Double click to add a new line,
 Single click and drag to move the line on the page.
 click the 'capture' button to create a png image of your poem.
