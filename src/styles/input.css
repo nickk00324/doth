@@ -1,7 +1,7 @@
 .input-text{
     background-color: transparent;
     z-index: 100;
-    border: 1px solid salmon;
+    border: 2px solid salmon;
     box-sizing: border-box;
     font-size: 16px;
     height: 24px;
@@ -12,23 +12,28 @@
 .input-button{
     border: none;
     height: 30px;
-    flex-basis: 30%;
+    font-size: 14px;
+    flex-shrink: 0;
 }
 
 .add-button{
     background-color: aquamarine;
+    flex-basis: 50%;
 }
 
 .exit-button{
     background-color: rgb(255, 208, 119);
+    flex-basis: 25%;
 }
 
 .remove-button{
     background-color: rgb(255, 91, 91);
+    flex-basis: 25%;
 }
 
 .input{
+    width: 20rem;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    z-index: 5;
 }

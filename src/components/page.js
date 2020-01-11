@@ -17,6 +17,7 @@ class Page extends React.Component {
             isEditing: false,
             editValue: '',
             pendingLine: '',
+            currentDraggedLine: '',
             editLocation: {
                 x: '',
                 y: ''
@@ -28,27 +29,60 @@ class Page extends React.Component {
         this.editText = this.editText.bind(this);
         this.addLine = this.addLine.bind(this);
         this.generateKey = this.generateKey.bind(this);
+        this.onStop = this.onStop.bind(this);
+        this.handleDrag = this.handleDrag.bind(this);
+    }
+
+    onStop(){
+        if(this.state.currentDraggedLine){
+            const updatedLine = this.createText(
+                this.state.currentDraggedLine.props.children,
+                this.state.currentDraggedLine.key
+            );
+            this.setState({
+                lines: {
+                    ...this.state.lines,
+                    [updatedLine.key]: updatedLine
+                },
+                currentDraggedLine: '',
+            })
+        }
+    }
+
+    handleDrag(e){
+        if(!this.state.currentDraggedLine){
+            this.setState({
+                currentDraggedLine: this.state.lines[e.target.getAttribute("textid")],
+            })
+        }
     }
 
     editLine(e){
         if(!this.state.isEditing){
             this.setState({ isEditing: true })
-            this.setState({
-                editLocation: {
-                    x: e.clientX - ((window.innerWidth - 500) / 2),
-                    y: e.clientY - ((window.innerHeight - 700) / 2)
-                }
-             })
+            console.log(e.target)
+            if(e.target.getAttribute('class') === 'page'){
+                this.setState({
+                  editLocation: {
+                    x: e.clientX - (window.innerWidth - 500) / 2,
+                    y: e.clientY - (window.innerHeight - 700) / 2
+                  }
+                });
+            }else {
+                this.setState({
+                  editLocation: {
+                    x: e.target.offsetLeft,
+                    y: e.target.offsetTop
+                  }
+                });
+            }   
         }   
     }
 
     editText(e){
         e.stopPropagation();
-
         this.editLine(e);
         const selectedText = this.state.lines[e.target.getAttribute("textid")];
-        console.log(selectedText);
-        console.log(this.state.editLocation);
         this.setState({pendingLine: selectedText});
         this.setState({lines: {...this.state.lines, [e.target.getAttribute('textid')]: ''}})
         this.setState({editValue: selectedText.props.children});  
@@ -88,12 +122,15 @@ class Page extends React.Component {
         this.setState({pendingLine: ''})
     }
 
-    createText(text, key){
+    createText(text, key, location){
         const newKey = key? key : this.generateKey();
+        const newLocation = location? location : this.state.editLocation;
         return (
           <Text
             editText={this.editText}
-            editLocation={this.state.editLocation}
+            editLocation={newLocation}
+            onStop={this.onStop}
+            handleDrag={this.handleDrag}
             key={newKey}
             textId={newKey}
           >{text}</Text>

@@ -6,8 +6,9 @@ import '../styles/text.css';
 class Text extends React.Component{
 
     render(){
+        const dragHandlers = {onStop: this.props.onStop, onDrag: this.props.handleDrag}
         return(
-                <Draggable bounds="parent" onClick={this.updatePos}>
+                <Draggable bounds="parent" {...dragHandlers}>
                     <div
                         textid={this.props.textId}
                         className="text"

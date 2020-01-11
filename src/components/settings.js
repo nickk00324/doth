@@ -1,16 +1,17 @@
 import React from 'react';
 import Capture from './capture';
-import Print from './print';
+import GuideButton from './guideButton';
+import '../styles/settings.css'
 
 const Settings = props => {
     return (
       <div>
         <Capture />
-        {props.guidesHidden ? (
-          <button onClick={props.showGuides}>show guides</button>
-        ) : (
-          <button onClick={props.hideGuides}>hide guides</button>
-        )}
+        <GuideButton
+          showGuides={props.showGuides}
+          hideGuides={props.hideGuides}
+          guidesHidden={props.guidesHidden}
+        />
       </div>
     );
 }

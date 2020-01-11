@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import html2canvas from 'html2canvas';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCameraRetro } from '@fortawesome/free-solid-svg-icons';
 
 class Capture extends React.Component{
 
@@ -16,12 +18,13 @@ class Capture extends React.Component{
          })
     }
     render(){
-        return(
-            <div>
-                <button onClick={this.capturePage}>capture</button>
-            </div>
-            
-        )
+        return (
+          <Fragment>
+            <button onClick={this.capturePage} className="capture-button">
+              <FontAwesomeIcon icon={faCameraRetro} />
+            </button>
+          </Fragment>
+        );
     }
 }
 
