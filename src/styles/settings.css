@@ -1,15 +1,25 @@
 .guide-button{
-    background-color: rgb(16, 52, 255);
-    border: none;
-    color: white;
-    font-size: 18px;
-    height: 40px;
+    color: rgb(62, 139, 255);
 }
 
-.capture-button{
+.icon-button{
     font-size: 50px;
     display: block;
     background-color: transparent;
     border: none;
+}
+
+.capture-button{
     color: rgb(255, 94, 228);
+}
+
+.print-button{
+    color: rgb(255, 168, 87)
+}
+
+.settings{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0 auto;
 }

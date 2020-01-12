@@ -58,20 +58,21 @@ class Page extends React.Component {
     }
 
     editLine(e){
+        const {width, height} = this.props.pageSize;
         if(!this.state.isEditing){
             this.setState({ isEditing: true })
             if(e.target.getAttribute('class') === 'page'){
                 this.setState({
                   editLocation: {
-                    x: e.clientX - (window.innerWidth - 500) / 2,
-                    y: e.clientY - (window.innerHeight - 700) / 2
+                    x: e.clientX - (window.innerWidth - width) / 2,
+                    y: e.clientY - (window.innerHeight - height) / 2
                   }
                 })
             }else {
                 this.setState({
                   editLocation: {
-                    x: e.target.getBoundingClientRect().x - (window.innerWidth - 500) / 2,
-                    y: e.target.getBoundingClientRect().y - (window.innerHeight - 700) / 2
+                    x: e.target.getBoundingClientRect().x - (window.innerWidth - width) / 2,
+                    y: e.target.getBoundingClientRect().y - (window.innerHeight - height) / 2
                   }
                 });
             }   
@@ -94,7 +95,7 @@ class Page extends React.Component {
                 break;
             case EXIT:
                 if(this.state.pendingLine){
-                    let editedLine = this.createText(this.state.editValue, this.state.pendingLine.key)
+                    let editedLine = this.createText(this.state.pendingLine.props.children, this.state.pendingLine.key)
                     this.setState({
                         lines: {
                             ...this.state.lines,
@@ -122,7 +123,6 @@ class Page extends React.Component {
     }
 
     createText(text, key, location){
-
         const newKey = key? key : this.generateKey();
         const newLocation = location? location : this.state.editLocation;
         return (
@@ -156,10 +156,12 @@ class Page extends React.Component {
     }
 
     render(){
+        const {width, height} = this.props.pageSize;
         return(         
-                <div className="page" onDoubleClick={this.editLine} style={{marginTop: (window.innerHeight - 700) / 2 }}>
+                <div className="page" onDoubleClick={this.editLine} style={{marginTop: (window.innerHeight - height) / 2, height: `${height}px`, width: `${width}px` }}>
                     {Object.values(this.state.lines)}
-                    {this.props.guides}
+                    {this.props.horizontalGuides}
+                    {this.props.verticalGuides}
                     {this.state.isEditing ?
                         <Input
                             doneEditing={this.doneEditing}

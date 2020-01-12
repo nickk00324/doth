@@ -20,8 +20,10 @@ class Capture extends React.Component{
     render(){
         return (
           <Fragment>
-            <button onClick={this.capturePage} className="capture-button">
-              <FontAwesomeIcon icon={faCameraRetro} />
+            <button onClick={this.capturePage} className="capture-button icon-button">
+              <div className="icon">
+                <FontAwesomeIcon icon={faCameraRetro} />
+              </div>
             </button>
           </Fragment>
         );

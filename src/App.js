@@ -6,41 +6,96 @@ import './App.css';
 
 function App() {
 
-  const [guidesArr, setGuidesArr] = useState([
-    <Guide orientation={'vertical'} isHidden={true} key={1}/>,
-    <Guide orientation={'vertical'} isHidden={true} key={2}/>,
-    <Guide orientation={'horizontal'} isHidden={true} key={3}/>,
-    <Guide orientation={'horizontal'} isHidden={true} key={4}/>
-  ]);
-  const [guidesHidden, setGuidesHidden] = useState(true);
+  const onGuideStop = () => {
+    console.log("hello");
+  };
 
-  const hideGuides = () => {
-    let hiddenGuidesArr = [
-      <Guide orientation={"vertical"} isHidden={true} key={1}/>,
-      <Guide orientation={"vertical"} isHidden={true} key={2}/>,
-      <Guide orientation={"horizontal"} isHidden={true} key={3}/>,
-      <Guide orientation={"horizontal"} isHidden={true} key={4}/>
-    ];
-    setGuidesArr(hiddenGuidesArr);
-    setGuidesHidden(true);
+  const generateGuides = (orientation, isHidden) => {
+    let newGuidesArr = [];
+    for (let i = 0; i < 2; i++) {
+      let key = i + new Date().toISOString();
+      newGuidesArr.push(
+        <Guide
+          pageSize={pageSize}
+          orientation={orientation}
+          isHidden={isHidden}
+          key={key}
+          onGuideStop={onGuideStop}
+        />
+      );
+    }
+    return newGuidesArr;
+  };
+
+  const isMobileDevice = () => {
+    return (
+      typeof window.orientation !== "undefined" ||
+      navigator.userAgent.indexOf("IEMobile") !== -1
+    );
+  };
+
+  const [pageSize, setPageSize] = useState({
+    width: 500,
+    height: 700
+  });
+
+
+  const [guidesHiddenHorizontal, setGuidesHiddenHorizontal] = useState(true);
+  const [guidesHiddenVertical, setGuidesHiddenVertical] = useState(true);
+  const [horizontalGuides, setHorizontalGuides] = useState(generateGuides('horizontal', true));
+  const [verticalGuides, setVerticalGuides] = useState(generateGuides('vertical', true));
+
+  React.useEffect(() => {
+    if(isMobileDevice()){
+      setPageSize({
+        width: window.innerWidth,
+        height: window.innerHeight
+      })
+    }
+  }, [])
+
+  const hideGuides = (orientation) => {
+    if(orientation === 'horizontal'){
+      setHorizontalGuides(generateGuides(orientation, true));
+      setGuidesHiddenHorizontal(true);
+    }else {
+      setVerticalGuides(generateGuides(orientation, true));
+      setGuidesHiddenVertical(true);
+    }
+    console.log(horizontalGuides[0].props)
   }
 
-  const showGuides = () => {
-    const visibleGuides = [
-      <Guide orientation={"vertical"} isHidden={false} key={1}/>,
-      <Guide orientation={"vertical"} isHidden={false} key={2}/>,
-      <Guide orientation={"horizontal"} isHidden={false} key={3}/>,
-      <Guide orientation={"horizontal"} isHidden={false} key={4}/>
-    ];
-    setGuidesArr(visibleGuides);
-    setGuidesHidden(false);
+  const showGuides = (orientation) => {
+    if(orientation === 'horizontal'){
+      setHorizontalGuides(generateGuides(orientation, false));
+      setGuidesHiddenHorizontal(false);
+    }else {
+      setVerticalGuides(generateGuides(orientation, false));
+      setGuidesHiddenVertical(false);
+    }
   }
 
+  const changePageSize = (width, height) => {
+    setPageSize({
+      width,
+      height
+    })
+  }
 
   return (
     <Fragment>
-      <Page guides={guidesArr}/>
-      <Settings showGuides={showGuides} hideGuides={hideGuides} guidesHidden={guidesHidden}/>
+      <Page
+        pageSize={pageSize}
+        horizontalGuides={horizontalGuides}
+        verticalGuides={verticalGuides}
+      />
+      <Settings
+        pageSize={pageSize}
+        showGuides={showGuides}
+        hideGuides={hideGuides}
+        guidesHiddenHorizontal={guidesHiddenHorizontal}
+        guidesHiddenVertical={guidesHiddenVertical}
+      />
     </Fragment>
   );
 }
