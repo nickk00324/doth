@@ -6,25 +6,41 @@ import './App.css';
 
 function App() {
 
-  const onGuideStop = () => {
-    console.log("hello");
-  };
+  const [pageSize, setPageSize] = useState({
+    width: 500,
+    height: 700
+  });
 
+  const [verticalGuidePositions, setVerticalGuidePositions] = useState([
+    pageSize.width / 2,
+    pageSize.width / 2
+  ])
+  const [horizontalGuidePositions, setHorizontalGuidePositions] = useState([
+    pageSize.height / 2,
+    pageSize.height / 2
+  ])
+
+  
   const generateGuides = (orientation, isHidden) => {
-    let newGuidesArr = [];
+    let positions = orientation === 'horizontal' ? 
+      horizontalGuidePositions
+      : verticalGuidePositions
+    let newGuides = [];
     for (let i = 0; i < 2; i++) {
       let key = i + new Date().toISOString();
-      newGuidesArr.push(
-        <Guide
+      newGuides.push(
+          <Guide
           pageSize={pageSize}
           orientation={orientation}
           isHidden={isHidden}
           key={key}
-          onGuideStop={onGuideStop}
+          guideid={key}
+          position={positions[i]}
         />
       );
+      //positions.shift();
     }
-    return newGuidesArr;
+    return newGuides;
   };
 
   const isMobileDevice = () => {
@@ -33,12 +49,6 @@ function App() {
       navigator.userAgent.indexOf("IEMobile") !== -1
     );
   };
-
-  const [pageSize, setPageSize] = useState({
-    width: 500,
-    height: 700
-  });
-
 
   const [guidesHiddenHorizontal, setGuidesHiddenHorizontal] = useState(true);
   const [guidesHiddenVertical, setGuidesHiddenVertical] = useState(true);
@@ -58,11 +68,33 @@ function App() {
     if(orientation === 'horizontal'){
       setHorizontalGuides(generateGuides(orientation, true));
       setGuidesHiddenHorizontal(true);
+      saveGuidePositions(orientation);
     }else {
       setVerticalGuides(generateGuides(orientation, true));
       setGuidesHiddenVertical(true);
+      saveGuidePositions(orientation);
     }
-    console.log(horizontalGuides[0].props)
+  }
+
+  function saveGuidePositions(orientation){
+    let guides = document.querySelectorAll(`.guide-${orientation}`);
+    let positions = [];
+    if(orientation === 'horizontal'){
+      guides.forEach(guide => {
+        positions.push(
+          guide.getBoundingClientRect().y - (window.innerHeight - pageSize.height) / 2
+        )})
+      setHorizontalGuidePositions(positions);
+    }else{
+      guides.forEach(guide => {
+        positions.push(
+          guide.getBoundingClientRect().x - (window.innerWidth - pageSize.width) / 2
+      )})
+      setVerticalGuidePositions(positions);
+    }
+    console.log(positions);
+    console.log(horizontalGuidePositions);
+    console.log(verticalGuidePositions);
   }
 
   const showGuides = (orientation) => {

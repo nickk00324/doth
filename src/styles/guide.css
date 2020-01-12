@@ -5,7 +5,7 @@
 }   
 
 .guide-horizontal{
-    border-bottom: 2px solid pink;
+    border-top: 2px solid pink;
     position: absolute;
     display:block;
 }
