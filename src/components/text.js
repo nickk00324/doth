@@ -16,7 +16,7 @@ class Text extends React.Component{
                         style={{
                             position: 'absolute',
                             top: this.props.editLocation ? `${this.props.editLocation.y}px` : '0px',
-                            left: this.props.editLocation ? `${this.props.editLocation.x}px` : '0px'
+                            left: this.props.editLocation ? `${this.props.editLocation.x}px` : '0px',
                         }}
                     >{this.props.children}</div>
                 </Draggable>      

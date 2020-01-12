@@ -60,19 +60,18 @@ class Page extends React.Component {
     editLine(e){
         if(!this.state.isEditing){
             this.setState({ isEditing: true })
-            console.log(e.target)
             if(e.target.getAttribute('class') === 'page'){
                 this.setState({
                   editLocation: {
                     x: e.clientX - (window.innerWidth - 500) / 2,
                     y: e.clientY - (window.innerHeight - 700) / 2
                   }
-                });
+                })
             }else {
                 this.setState({
                   editLocation: {
-                    x: e.target.offsetLeft,
-                    y: e.target.offsetTop
+                    x: e.target.getBoundingClientRect().x - (window.innerWidth - 500) / 2,
+                    y: e.target.getBoundingClientRect().y - (window.innerHeight - 700) / 2
                   }
                 });
             }   
@@ -123,6 +122,7 @@ class Page extends React.Component {
     }
 
     createText(text, key, location){
+
         const newKey = key? key : this.generateKey();
         const newLocation = location? location : this.state.editLocation;
         return (
