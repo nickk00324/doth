@@ -157,22 +157,31 @@ class Page extends React.Component {
 
     render(){
         const {width, height} = this.props.pageSize;
-        return(         
-                <div className="page" onDoubleClick={this.editLine} style={{marginTop: (window.innerHeight - height) / 2, height: `${height}px`, width: `${width}px` }}>
-                    {Object.values(this.state.lines)}
-                    {this.props.horizontalGuides}
-                    {this.props.verticalGuides}
-                    {this.state.isEditing ?
-                        <Input
-                            doneEditing={this.doneEditing}
-                            handleInput={this.handleInput}
-                            editValue={this.state.editValue}
-                            editLocation={this.state.editLocation}
-                        />
-                        : ''
-                    }
-                </div>  
-        )   
+        return (
+          <div
+            className="page"
+            onDoubleClick={this.editLine}
+            style={{
+              marginTop: (window.innerHeight - height) / 2,
+              height: `${height}px`,
+              width: `${width}px`
+            }}
+          >
+            {this.props.horizontalGuides}
+            {this.props.verticalGuides}
+            {Object.values(this.state.lines)}
+            {this.state.isEditing ? (
+              <Input
+                doneEditing={this.doneEditing}
+                handleInput={this.handleInput}
+                editValue={this.state.editValue}
+                editLocation={this.state.editLocation}
+              />
+            ) : (
+              ""
+            )}
+          </div>
+        );   
     }
 }
 
