@@ -119,9 +119,7 @@ function App() {
       )})
       setVerticalGuidePositions(positions);
     }
-    console.log(positions);
-    console.log(horizontalGuidePositions);
-    console.log(verticalGuidePositions);
+
   }
 
   const showGuides = (orientation) => {
