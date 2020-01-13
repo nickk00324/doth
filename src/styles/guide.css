@@ -9,3 +9,13 @@
     position: absolute;
     display:block;
 }
+
+@media screen and (max-width: 500px){
+    .guide-vertical{
+        border-left: 10px solid pink;
+    }
+
+    .guide-horizontal{
+        border-top: 10px solid pink;
+    }
+}

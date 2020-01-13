@@ -1,7 +1,8 @@
 .page{
     height: 700px;
     width: 500px;
-    margin: 20px auto;
+    margin: 0 auto;
+    margin-bottom: 20px;
     position: relative;
     -webkit-box-shadow: 10px 10px 28px -6px rgba(0,0,0,0.72);
     -moz-box-shadow: 10px 10px 28px -6px rgba(0,0,0,0.72);

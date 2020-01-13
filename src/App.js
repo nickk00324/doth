@@ -6,11 +6,17 @@ import Modal from 'react-modal';
 import html2canvas from 'html2canvas';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { isMobileDevice } from './util/isMobileDevice';
 import './App.css';
 
-Modal.setAppElement('#root')
+Modal.setAppElement('#root');
+
 
 function App() {
+
+  window.addEventListener("resize", () =>
+    console.log("please don't resize the window, because that makes everything wonky")
+  );
 
   const [pageSize, setPageSize] = useState({
     width: 500,
@@ -49,13 +55,6 @@ function App() {
     return newGuides;
   };
 
-  const isMobileDevice = () => {
-    return (
-      typeof window.orientation !== "undefined" ||
-      navigator.userAgent.indexOf("IEMobile") !== -1
-    );
-  };
-
   const [guidesHiddenHorizontal, setGuidesHiddenHorizontal] = useState(true);
   const [guidesHiddenVertical, setGuidesHiddenVertical] = useState(true);
   const [horizontalGuides, setHorizontalGuides] = useState(generateGuides('horizontal', true));
@@ -81,10 +80,14 @@ function App() {
 
   React.useEffect(() => {
     if(isMobileDevice()){
+      let settings = document.querySelector('.settings');
+      let offset = settings.offsetHeight
       setPageSize({
         width: window.innerWidth,
-        height: window.innerHeight
+        height: window.innerHeight - offset - 30
       })
+      Modal.defaultStyles.overlay.width = `${window.innerWidth}px`;
+      Modal.defaultStyles.overlay.height = `${window.innerHeight}px`
     }
   }, [])
 
@@ -131,32 +134,55 @@ function App() {
     }
   }
 
-  const changePageSize = (width, height) => {
-    setPageSize({
-      width,
-      height
-    })
-  }
-
-  const customStyles = {
+  const modalStyles = isMobileDevice()? {
     content: {
-      zIndex: "50",
-      textAlign: "center",
-      backgroundColor: "rgba(0, 151, 144, 0.644)"
+      width: `${pageSize.width - 50}px`,
+      height: `${pageSize.height - 70}px`,
+      margin: '0 auto',
+      padding: '0',
+      position: 'fixed'
+    }
+  }
+  :
+  {
+    content: {
+      width: `${pageSize.width}px`,
+      height: `${pageSize.height}px`,
+      margin: `40px auto`,
+      padding: '0'
     }
   };
+
+  Modal.defaultStyles.overlay.backgroundColor = 'pink'
 
   return (
     <Fragment>
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}
-        style={customStyles}
-        >
+        transparent={true}
+        style={modalStyles}
+        portalClassName="modal"
+      >
         <button className="icon-button modal-close" onClick={closeModal}>
           <FontAwesomeIcon icon={faTimesCircle} />
         </button>
-        <img className="capture-img" src={photo} height={pageSize.height} width={pageSize.width} alt='your poem silly!'/>
+        {isMobileDevice() ? (
+          <img
+            className="capture-img"
+            src={photo}
+            width={`${pageSize.width - 100}px`}
+            alt="your poem silly!"
+          />
+        ) : (
+          <img
+            className="capture-img"
+            src={photo}
+            height={`${pageSize.height}px`}
+            width={`${pageSize.width}px`}
+            alt="your poem silly!"
+          />
+        )}
       </Modal>
 
       <Page

@@ -2,6 +2,7 @@ import React from 'react';
 import Text from './text';
 import Input from './input';
 import '../styles/page.css';
+import { isMobileDevice } from '../util/isMobileDevice';
 
 import {
     ADD_LINE,
@@ -157,12 +158,14 @@ class Page extends React.Component {
 
     render(){
         const {width, height} = this.props.pageSize;
+        const marginTop = isMobileDevice()? 
+            '0px' : `${(window.innerHeight - height) / 2}px`
         return (
           <div
             className="page"
             onDoubleClick={this.editLine}
             style={{
-              marginTop: (window.innerHeight - height) / 2,
+              marginTop: marginTop,
               height: `${height}px`,
               width: `${width}px`
             }}

@@ -19,7 +19,9 @@
 
 .add-button{
     background-color: rgb(55, 248, 238);
-    flex-basis: 50%;
+    flex-basis: 0;
+    flex-grow: 2;
+    flex-shrink: 1;
 }
 
 .add-button:hover{
@@ -28,7 +30,13 @@
 
 .exit-button{
     background-color: rgb(71, 247, 36);
-    flex-basis: 25%;
+    flex-basis: 1;
+    flex-grow: 1;
+    flex-shrink: 2;
+}
+
+button{
+    margin: 0;
 }
 
 .exit-button:hover{
@@ -37,7 +45,9 @@
 
 .remove-button{
     background-color: rgb(255, 91, 91);
-    flex-basis: 25%;
+    flex-basis: 1;
+    flex-grow: 1;
+    flex-shrink: 2;
 }
 
 .remove-button:hover{
@@ -46,7 +56,43 @@
 
 .input{
     width: 20rem;
+    margin: 0;
     display: flex;
     flex-wrap: wrap;
     z-index: 5;
+    box-sizing: border-box;
+}
+
+@media screen and (max-width: 500px){
+    .input-text{
+        border: solid 2px salmon;
+        border-radius: 0;
+        margin: 0;
+    }
+    .input{
+        width: 250px;
+    }
+
+    .input-button{
+        font-size: 12px;
+        box-sizing: border-box;
+    }
+
+    .add-button{
+        flex-basis: 100%;
+        flex-grow: 2;
+        flex-shrink: 1;
+    }
+
+    .exit-button{
+        flex-basis: 0;
+        flex-grow: 2;
+        flex-shrink: 2;
+    }
+
+    .remove-button{
+        flex-basis: 1;
+        flex-grow: 1;
+        flex-shrink: 2;
+    }
 }

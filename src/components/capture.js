@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import html2canvas from 'html2canvas';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCameraRetro } from '@fortawesome/free-solid-svg-icons';
 
