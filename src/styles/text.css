@@ -1,6 +1,6 @@
 .text{
     display: inline-block;
     font-size: 14px;
-    z-index: 5;
+    z-index: 0;
     user-select: none;
 }

@@ -2,7 +2,13 @@ import React, { Fragment, useState } from 'react';
 import Page from './components/page'
 import Settings from './components/settings';
 import Guide from './components/guide';
+import Modal from 'react-modal';
+import html2canvas from 'html2canvas';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import './App.css';
+
+Modal.setAppElement('#root')
 
 function App() {
 
@@ -54,6 +60,24 @@ function App() {
   const [guidesHiddenVertical, setGuidesHiddenVertical] = useState(true);
   const [horizontalGuides, setHorizontalGuides] = useState(generateGuides('horizontal', true));
   const [verticalGuides, setVerticalGuides] = useState(generateGuides('vertical', true));
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [photo, setPhoto] = useState('');
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
+
+  function capturePage() {
+    html2canvas(document.querySelector('.page'), { scale: 4})
+      .then(canvas => {
+        setPhoto(canvas.toDataURL())
+    })
+    openModal();
+  }
 
   React.useEffect(() => {
     if(isMobileDevice()){
@@ -114,8 +138,27 @@ function App() {
     })
   }
 
+  const customStyles = {
+    content: {
+      zIndex: "50",
+      textAlign: "center",
+      backgroundColor: "rgba(0, 151, 144, 0.644)"
+    }
+  };
+
   return (
     <Fragment>
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        >
+        <button className="icon-button modal-close" onClick={closeModal}>
+          <FontAwesomeIcon icon={faTimesCircle} />
+        </button>
+        <img className="capture-img" src={photo} height={pageSize.height} width={pageSize.width} alt='your poem silly!'/>
+      </Modal>
+
       <Page
         pageSize={pageSize}
         horizontalGuides={horizontalGuides}
@@ -127,6 +170,7 @@ function App() {
         hideGuides={hideGuides}
         guidesHiddenHorizontal={guidesHiddenHorizontal}
         guidesHiddenVertical={guidesHiddenVertical}
+        capturePage={capturePage}
       />
     </Fragment>
   );

@@ -2,24 +2,41 @@
     color: rgb(62, 139, 255);
 }
 
+.guide-button:hover{
+    color: rgb(122, 175, 255);
+}
+
 .icon-button{
     font-size: 50px;
     display: block;
     background-color: transparent;
     border: none;
+    transition: all .5s;
 }
 
 .capture-button{
     color: rgb(255, 94, 228);
 }
 
+.capture-button:hover{
+    color: rgb(255, 172, 241);
+}
+
 .print-button{
-    color: rgb(255, 168, 87)
+    color: rgb(255, 168, 87);
+}
+
+.print-button:hover{
+    color: rgb(255, 198, 144);
 }
 
 .settings{
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     margin: 0 auto;
+}
+
+.modal-close{
+    position: absolute;
 }

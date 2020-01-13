@@ -14,21 +14,34 @@
     height: 30px;
     font-size: 14px;
     flex-shrink: 0;
+    transition: all .5s;
 }
 
 .add-button{
-    background-color: aquamarine;
+    background-color: rgb(55, 248, 238);
     flex-basis: 50%;
 }
 
+.add-button:hover{
+    background-color: rgb(142, 252, 246);
+}
+
 .exit-button{
-    background-color: rgb(255, 208, 119);
+    background-color: rgb(71, 247, 36);
     flex-basis: 25%;
+}
+
+.exit-button:hover{
+    background-color: rgb(144, 250, 123);
 }
 
 .remove-button{
     background-color: rgb(255, 91, 91);
     flex-basis: 25%;
+}
+
+.remove-button:hover{
+    background-color: rgb(255, 157, 157);
 }
 
 .input{

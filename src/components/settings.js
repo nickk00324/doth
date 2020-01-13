@@ -9,7 +9,7 @@ const Settings = props => {
     return (
       <div className="settings" style={{ width: `${props.pageSize.width}px` }}>
         <Print />
-        <Capture />
+        <Capture capturePage={props.capturePage}/>
         <GuideButton
           showGuides={props.showGuides}
           hideGuides={props.hideGuides}
