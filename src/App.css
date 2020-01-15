@@ -4,13 +4,13 @@
 
 .capture-img{
   z-index: 10;
-  margin-top: 30px;
+  margin: 30px auto 0 auto;
 }
 
 @media screen and (max-width: 500px){
   .capture-img{
-    margin: 0;
-    padding: 0
+    margin: 0 auto;
+    padding: 0;
   }
 }
 

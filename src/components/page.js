@@ -10,11 +10,13 @@ import {
     REMOVE_LINE
 } from '../util/editingTypes';
 
+
 class Page extends React.Component {
     constructor(props){
         super(props);
         this.state = {
             lines: {},
+            page: '',
             isEditing: false,
             editValue: '',
             pendingLine: '',
@@ -32,6 +34,11 @@ class Page extends React.Component {
         this.generateKey = this.generateKey.bind(this);
         this.onStop = this.onStop.bind(this);
         this.handleDrag = this.handleDrag.bind(this);
+    }
+
+    componentDidMount(){
+        let page = document.querySelector('.page');
+        this.setState({page})
     }
 
     onStop(){
@@ -59,21 +66,27 @@ class Page extends React.Component {
     }
 
     editLine(e){
-        const {width, height} = this.props.pageSize;
         if(!this.state.isEditing){
             this.setState({ isEditing: true })
-            if(e.target.getAttribute('class').includes('page') || e.target.getAttribute('class').includes('guide')){
+            if(e.target.getAttribute('class').includes('page')){
                 this.setState({
                   editLocation: {
-                    x: e.clientX - (window.innerWidth - width) / 2,
-                    y: e.clientY - (window.innerHeight - height) / 2
+                    x: e.clientX - e.target.getBoundingClientRect().x,
+                    y: e.clientY - e.target.getBoundingClientRect().y
                   }
+                })
+            }else if(e.target.getAttribute('class').includes('guide')){
+                this.setState({
+                    editLocation: {
+                        x: e.clientX - this.state.page.getBoundingClientRect().x,
+                        y: e.clientY - this.state.page.getBoundingClientRect().y
+                    }
                 })
             }else {
                 this.setState({
                   editLocation: {
-                    x: e.target.getBoundingClientRect().x - (window.innerWidth - width) / 2,
-                    y: e.target.getBoundingClientRect().y - (window.innerHeight - height) / 2
+                    x: e.target.getBoundingClientRect().x - this.state.page.getBoundingClientRect().x,
+                    y: e.target.getBoundingClientRect().y - this.state.page.getBoundingClientRect().y
                   }
                 });
             }   
@@ -159,7 +172,7 @@ class Page extends React.Component {
     render(){
         const {width, height} = this.props.pageSize;
         const marginTop = isMobileDevice()? 
-            '0px' : `${(window.innerHeight - height) / 2}px`
+            '20px' : `${(window.innerHeight - height) / 2}px`
         return (
           <div
             className="page"

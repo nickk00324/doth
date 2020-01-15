@@ -14,10 +14,6 @@ Modal.setAppElement('#root');
 
 function App() {
 
-  window.addEventListener("resize", () =>
-    console.log("please don't resize the window, because that makes everything wonky")
-  );
-
   const [pageSize, setPageSize] = useState({
     width: 500,
     height: 700
@@ -50,7 +46,6 @@ function App() {
           position={positions[i]}
         />
       );
-      //positions.shift();
     }
     return newGuides;
   };
@@ -61,6 +56,7 @@ function App() {
   const [verticalGuides, setVerticalGuides] = useState(generateGuides('vertical', true));
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [photo, setPhoto] = useState('');
+  const [page, setPage] = useState('');
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -71,24 +67,29 @@ function App() {
   }
 
   function capturePage() {
-    html2canvas(document.querySelector('.page'), { scale: 4})
-      .then(canvas => {
-        setPhoto(canvas.toDataURL())
-    })
+      html2canvas(document.querySelector('.page'), { scale: 4 })
+        .then(canvas => {
+          setPhoto(canvas.toDataURL())
+        })
     openModal();
   }
 
   React.useEffect(() => {
     if(isMobileDevice()){
       let settings = document.querySelector('.settings');
-      let offset = settings.offsetHeight
-      setPageSize({
-        width: window.innerWidth,
-        height: window.innerHeight - offset - 30
-      })
+      let offset = settings.offsetHeight;
+      let mobileDimensions = {
+        width: window.innerWidth - 25,
+        height: window.innerHeight - offset - 30 - 20
+      }
+      setPageSize(mobileDimensions);
+      setVerticalGuidePositions([mobileDimensions.width / 2, mobileDimensions.width / 2]);
+      setHorizontalGuidePositions([mobileDimensions.height/ 2, mobileDimensions.height / 2])
       Modal.defaultStyles.overlay.width = `${window.innerWidth}px`;
-      Modal.defaultStyles.overlay.height = `${window.innerHeight}px`
+      Modal.defaultStyles.overlay.height = `${window.innerHeight}px`;
     }
+    let page = document.querySelector('.page');
+    setPage(page);
   }, [])
 
   const hideGuides = (orientation) => {
@@ -109,17 +110,16 @@ function App() {
     if(orientation === 'horizontal'){
       guides.forEach(guide => {
         positions.push(
-          guide.getBoundingClientRect().y - (window.innerHeight - pageSize.height) / 2
+          guide.getBoundingClientRect().y - page.getBoundingClientRect().y
         )})
       setHorizontalGuidePositions(positions);
     }else{
       guides.forEach(guide => {
         positions.push(
-          guide.getBoundingClientRect().x - (window.innerWidth - pageSize.width) / 2
+          guide.getBoundingClientRect().x - page.getBoundingClientRect().x
       )})
       setVerticalGuidePositions(positions);
     }
-
   }
 
   const showGuides = (orientation) => {
@@ -134,20 +134,22 @@ function App() {
 
   const modalStyles = isMobileDevice()? {
     content: {
-      width: `${pageSize.width - 50}px`,
-      height: `${pageSize.height - 70}px`,
+      width: `${pageSize.width}px`,
+      height: `${pageSize.height}px`,
       margin: '0 auto',
       padding: '0',
-      position: 'fixed'
+      position: 'absolute',
+      left: `13px`
     }
   }
   :
   {
     content: {
-      width: `${pageSize.width}px`,
-      height: `${pageSize.height}px`,
+      width: `${pageSize.width + 50}px`,
+      height: `${pageSize.height + 50}px`,
       margin: `40px auto`,
-      padding: '0'
+      padding: '0',
+      display: 'flex'
     }
   };
 
@@ -162,14 +164,11 @@ function App() {
         style={modalStyles}
         portalClassName="modal"
       >
-        <button className="icon-button modal-close" onClick={closeModal}>
-          <FontAwesomeIcon icon={faTimesCircle} />
-        </button>
         {isMobileDevice() ? (
           <img
             className="capture-img"
             src={photo}
-            width={`${pageSize.width - 100}px`}
+            width={`${pageSize.width}px`}
             alt="your poem silly!"
           />
         ) : (
@@ -181,6 +180,9 @@ function App() {
             alt="your poem silly!"
           />
         )}
+        <button className="icon-button modal-close" onClick={closeModal}>
+          <FontAwesomeIcon icon={faTimesCircle} />
+        </button>
       </Modal>
 
       <Page
