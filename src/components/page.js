@@ -62,7 +62,7 @@ class Page extends React.Component {
         const {width, height} = this.props.pageSize;
         if(!this.state.isEditing){
             this.setState({ isEditing: true })
-            if(e.target.getAttribute('class') === 'page'){
+            if(e.target.getAttribute('class').includes('page') || e.target.getAttribute('class').includes('guide')){
                 this.setState({
                   editLocation: {
                     x: e.clientX - (window.innerWidth - width) / 2,
