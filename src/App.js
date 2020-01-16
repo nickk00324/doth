@@ -11,7 +11,6 @@ import './App.css';
 
 Modal.setAppElement('#root');
 
-
 function App() {
 
   const [pageSize, setPageSize] = useState({
