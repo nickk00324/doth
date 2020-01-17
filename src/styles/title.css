@@ -16,6 +16,7 @@
     animation-fill-mode: forwards;
     padding: 0;
     box-sizing: border-box;
+    opacity: 0;
 }
 
 @keyframes fadeIn {
