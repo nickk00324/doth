@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react';
 import Page from './components/page'
 import Settings from './components/settings';
 import Guide from './components/guide';
+import Title from './components/title';
 import Modal from 'react-modal';
 import html2canvas from 'html2canvas';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -156,6 +157,7 @@ function App() {
 
   return (
     <Fragment>
+      <Title />
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}
